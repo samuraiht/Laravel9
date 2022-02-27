@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link href="style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body>
+<p><span class="com">この色</span>の部分はコマンド入力や追記、書き換える部分です</p>
+<p><span class="var">この色</span>の部分は可変です</p>
+<p>laravel最新版で<span>appName</span>というアプリを作るコマンド</p>
+
+<h1>導入</h1>
+<h2>アプリ作成</h2>
+<code class="com">composer create-project --prefer-dist laravel/laravel <span class="var">appName</span></code>
+<p>.envというファイルのデータベース情報部分を編集します。</p>
+<p>もともとこうなっています</p>
+<pre><code>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=</code></pre>
+
+<h2>sqliteを使う場合</h2>
+<code>DB_CONNECTION=<span class="com">sqlite</span></code>
+
+<h3>sqliteのデータベースに接続(存在しなくても接続可能)</h3>
+<pre><code><span class="com">sqlite3 database/database.sqlite</span>
+SQLite version X.X.X.X
+Enter ".help" for instructions
+Enter SQL statements terminated with a ";"
+sqlite> <span class="com">.tables</span>
+sqlite> <span class="com">.exit</span></code></pre>
+
+<h2>mysqlを使う場合</h2>
+<pre><code>DB_CONNECTION=mysql
+DB_HOST=<span class="var">接続先ホスト(通常は127.0.0.1)</span>
+DB_PORT=<span class="var">ポート(通常は3306)</span>
+DB_DATABASE=<span class="var">使用するデータベース名</span>
+DB_USERNAME=<span class="var">ユーザー名</span>
+DB_PASSWORD=<span class="var">パスワード</span></code></pre>
+
+<h3>mysqlに接続、データベース作成</h3>
+<h4>rootパスワードなし(XAMPPの初期状態など)</h4>
+<code><span class="com">mysql -u root</span></code>
+<h4>rootパスワードあり</h4>
+<pre><code><span class="com">mysql -u root -p</span>
+Enter password: <span class="var">ここにパスワードを入力(見えません)</span></code></pre>
+
+<pre><code>Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is X
+Server version: XX.X.XX-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> <span class="com">CREATE DATABASE `<span class="var">DB_DATABASE</span>` CHARACTER SET='utf8mb4' COLLATE='utf8mb4_bin';</span>
+</code></pre>
+<p>DB_DATABASEの部分は.envに書いたDB_DATABASEの値と同じ</p>
+
+<h2>Node.jsパッケージマネージャーでインストール</h2>
+<pre><code class="com">npm install @popperjs/core --save
+npm install bootstrap --save
+npm install cross-env --save
+npm install font-awesome --save
+npm install jquery --save
+npm install resolve-url-loader --save
+npm install sass --save
+npm install sass-loader --save
+npm install vue --save
+npm install vue-loader --save
+npm-check-updates -u
+npm update</code></pre>
+
+<h2>resources/sassディレクトリ</h2>
+<p>なければ作成</p>
+
+<h3>app.scss</h3>
+<p>なければ作成</p>
+<pre><code>// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Font Awesome
+@import '~font-awesome/scss/font-awesome';</code></pre>
+
+<h3>_variables.scss</h3>
+<p>なければ作成</p>
+<pre><code>// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: 'Nunito', sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+// Colors
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;</code></pre>
+
+<h2>webpack.mix.js編集</h2>
+<pre><code>const mix = require('laravel-mix');
+
+/*
+ |--------------------------------------------------------------------------
+ | Mix Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Mix provides a clean, fluent API for defining some Webpack build steps
+ | for your Laravel applications. By default, we are compiling the CSS
+ | file for the application as well as bundling up all the JS files.
+ |
+ */
+
+mix.js('resources/js/app.js', 'public/js')<span class="com">.sass('resources/sass/app.scss', 'public/css').vue();</span>
+<span class="com">//</span>    .postCss('resources/css/app.css', 'public/css', [
+<span class="com">//</span>        //
+<span class="com">//</span>    ]);</code></pre>
+
+<h2>sortableインストール</h2>
+<pre><code class="com">composer require rutorika/sortable
+composer update</code></pre>
+
+<h2>JavaScriptのビルド</h2>
+<code class="com">npm run dev</code>
+
+<h1>制作</h1>
+<p>作成する各ファイルの内容は<a href="https://www.sejuku.net/plus/programs/11/chapters/130">教材</a>参照</p>
+
+<h2>layouts作成</h2>
+<p>resources/views/layoutsディレクトリ作成</p>
+<p>app.blade.php作成</p>
+
+<h2>初期設定を変更</h2>
+<p>resources/views/welcome.blade.php変更</p>
+
+<h2>components作成</h2>
+<p>resources/views/componentsディレクトリ作成</p>
+<p>header.blade.php作成</p>
+<p>footer.blade.php作成</p>
+<p>flash.blade.php作成</p>
+</body>
+</html>
