@@ -136,8 +136,9 @@ mix.js('resources/js/app.js', 'public/js')<span class="com">.sass('resources/sas
 <span class="com">//</span>        //
 <span class="com">//</span>    ]);</code></pre>
 
-<h2>sortableインストール</h2>
+<h2>composerで必要なものをインストール</h2>
 <pre><code class="com">composer require rutorika/sortable
+composer require laravel/ui
 composer update</code></pre>
 
 <h2>JavaScriptのビルド</h2>
@@ -159,6 +160,16 @@ composer update</code></pre>
 <p>resources/views/welcome.blade.php</p>
 
 <h1>ログイン認証</h1>
-<p>app/Providers/AppServiceProvider.php</p>
+<p>app/Providers/AppServiceProvider.phpを編集</p>
+
+<p>レイアウトが存在すると上書き確認が出ます。必要なければ<span>no</span>です。</p>
+<pre><code><span class="com">php artisan ui vue --auth</span>
+Vue scaffolding installed successfully.
+Please run "npm install && npm run dev" to compile your fresh scaffolding.
+
+ The [layouts/app.blade.php] view already exists. Do you want to replace it? (yes/no) [no]:
+ > <span class="com">no</span>
+
+Authentication scaffolding generated successfully.</code></pre>
 </body>
 </html>
